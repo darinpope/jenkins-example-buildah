@@ -43,6 +43,7 @@ spec:
     stage('Login to Docker Hub') {
       steps {
         container('buildah') {
+          sh 'buildah login --help'
           sh 'echo $DH_CREDS_PSW | buildah login --username=$DH_CREDS_USR --password-stdin'
         }
       }
