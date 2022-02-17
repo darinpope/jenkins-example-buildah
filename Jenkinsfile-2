@@ -25,7 +25,7 @@ spec:
     }
   }
   options {
-    buildDiscarder(logRotator(numToKeepStr: '3'))
+    buildDiscarder(logRotator(numToKeepStr: '10'))
     durabilityHint('PERFORMANCE_OPTIMIZED')
     disableConcurrentBuilds()
   }
@@ -36,15 +36,14 @@ spec:
     stage('Build with Buildah') {
       steps {
         container('buildah') {
-          sh 'buildah build -t darinpope/jenkins-example-buildah:8.5-204 .'
+          sh 'buildah build -t darinpope/jenkins-example-buildah:8.5-230 .'
         }
       }
     }
     stage('Login to Docker Hub') {
       steps {
         container('buildah') {
-          sh 'buildah login --help'
-          sh 'echo $DH_CREDS_PSW | buildah login --username=$DH_CREDS_USR --password-stdin'
+          sh 'echo $DH_CREDS_PSW | buildah login -u $DH_CREDS_USR --password-stdin docker.io'
         }
       }
     }
@@ -52,7 +51,7 @@ spec:
   post {
     always {
       container('buildah') {
-        sh 'buildah logout'
+        sh 'buildah logout docker.io'
       }
     }
   }
