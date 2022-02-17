@@ -1,1 +1,1 @@
-FROM docker.io/redhat/ubi8-minimal:8.5-204
+FROM docker.io/redhat/ubi8-minimal:8.5-230
